@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-const bcrypt  = require('bcrypt');
+const bcrypt  = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { config } = require('../config');
 
@@ -44,14 +44,14 @@ UserSchema.pre('save', async function(next){
     if(!this.isModified('password')){
         next()
     }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password,salt);
+    const salt = bcrypt.genSaltSync(10);
+    this.password = bcrypt.hashSync(this.password,salt);
 
 })
 
 // Compare inputed password to hashed password from database
 UserSchema.methods.comparePassword = async function (userPassword){
-    return await bcrypt.compare(userPassword,this.password);
+    return  bcrypt.compareSync(userPassword,this.password);
 }
 
 // Sign JWT token and return
