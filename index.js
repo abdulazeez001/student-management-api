@@ -9,6 +9,9 @@ const fileupload = require('express-fileupload');
 const errorHandler = require('./middleware/error');
 const {config,connectDB} = require('./config');
 const ErrorResponse = require('./util/errorResponse');
+const dotenv = require('dotenv');
+dotenv.config()
+
 
 const {
        userRoutes,
